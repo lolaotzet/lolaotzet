@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
+import { auth } from '../firebase/config';
 
 export default class Login extends Component {
   constructor(props) {
@@ -7,15 +8,39 @@ export default class Login extends Component {
     this.state = {
       email: '',
       userName: '',
-      password: ''
+      password: '',
+      login: false,
+      error:""
     };
   }
 
   onSubmit() {
-    console.log('Logueando usuario:', this.state);
+    if(!this.state.email.includes("@")){
+       this.setState({error:"Email mal formateado"})
+       return
+    }
+    if(this.state.password.length<6){
+      this.setState({error:"La password debe tener una longitud mínima de 6 caracteres"})
+      return
+    }
+
+    auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+       .then(
+        response => {
+          this.setState({ login: true})
+        }
+       )
+       .catch(
+        error => {
+          this.setState({error:"Credenciales invalidas"})
+        }
+       )
   }
 
   render() {
+     if(this.state.login){
+         this.props.navigation.navigate('HomeMenu')
+      }
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -37,7 +62,7 @@ export default class Login extends Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
           />
-
+          <Text styles={styles.errorText}>{this.state.error}</Text>
           <Pressable style={styles.loginButton} onPress={() => this.onSubmit()}>
             <Text style={styles.loginText}>Log in</Text>
           </Pressable>
@@ -100,6 +125,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 10,
+    marginTop:10,
     width: '90%',
     alignItems: 'center',
   },
@@ -131,5 +157,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  errorText: {
+    marginTop:20,
+     marginBottom:20
+  }
 });
 

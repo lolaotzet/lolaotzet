@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { auth } from '../firebase/config';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 
 export default class Register extends Component {
@@ -8,14 +9,29 @@ export default class Register extends Component {
       userName: '',
       email: '',
       password: '',
+      registered:false,
+      error: ""
     };
   }
 
-  onRegister() {
-    console.log('Registrando usuario:', this.state);
+  onSubmit() {
+   auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+   .then(
+    response => {
+      this.setState({ registered: true})
+    }
+   )
+   .catch(
+    error => {
+      this.setState({error:"fallo en el registro"})
+    }
+   )
   }
 
   render() {
+      if(this.state.registered){
+         this.props.navigation.navigate('Login')
+      }
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -44,7 +60,7 @@ export default class Register extends Component {
             value={this.state.password}
           />
 
-          <Pressable style={styles.registerButton} onPress={() => this.onRegister()}>
+          <Pressable style={styles.registerButton} onPress={() => this.onSubmit()}>
             <Text style={styles.buttonText}>Registrarme</Text>
           </Pressable>
 

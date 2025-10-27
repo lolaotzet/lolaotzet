@@ -15,10 +15,10 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,               // Hace que el View ocupe toda la pantalla
+    flex: 1,               
     backgroundColor: '#f5f6fa',
-    alignItems: 'center',  // Centra horizontalmente
-    justifyContent: 'flex-start', // Empieza desde arriba
+    alignItems: 'center',  
+    justifyContent: 'flex-start', 
     padding: 20,
   },
   title: {
