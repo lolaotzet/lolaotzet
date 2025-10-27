@@ -22,8 +22,9 @@
       },
       "edgeToEdgeEnabled": true
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+     "web": {
+      "bundler": "metro",
+      "output": "single"
     }
   }
 }
