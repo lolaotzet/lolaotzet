@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { auth } from '../firebase/config';
+import { db, auth } from '../firebase/config';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 
 export default class Register extends Component {
@@ -19,6 +19,15 @@ export default class Register extends Component {
    .then(
     response => {
       this.setState({ registered: true})
+         db.collection('users').add(
+        {
+          email: this.state.email,
+          nombreUsuario: this.state.userName,
+          createdAt: Date.now()
+        }
+      )
+      .then()
+      .catch(error => console.log(error))
     }
    )
    .catch(
@@ -63,7 +72,7 @@ export default class Register extends Component {
           <Pressable style={styles.registerButton} onPress={() => this.onSubmit()}>
             <Text style={styles.buttonText}>Registrarme</Text>
           </Pressable>
-
+        
           <Pressable
             style={styles.backButton}
             onPress={() => this.props.navigation.navigate('Login')}>

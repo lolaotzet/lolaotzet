@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Comentarios from '../components/DynamicForm';
 
 export default class Home extends Component {
@@ -8,6 +8,11 @@ export default class Home extends Component {
       <View style={styles.container}>
           <Text style={styles.title}>Home</Text>
           <Comentarios/>
+             <Pressable
+                      style={styles.buttonR}
+                      onPress={() => this.props.navigation.navigate('Usuarios')}>
+                      <Text style={styles.buttonText}>Usuarios</Text>
+                    </Pressable>
       </View>
     );
   }
